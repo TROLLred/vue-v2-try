@@ -3,18 +3,19 @@
         <PhotoForm @addPhoto="addPhoto"/>
         <v-row>
             <Photo
-                v-for="photo in photos"
+                v-for="photo in $store.getters.getAllPhotos"
                 :photo="photo"
-                @openPhoto="openPhoto"
             />
         </v-row>
-        <PhotoDialog :photo="currentPhoto" v-model="dialogVisible"/>
+        <PhotoDialog/>
     </v-container>
 </template>
 <script>
 import Photo from '@/components/photo/Photo';
 import PhotoForm from '@/components/photo/PhotoForm';
 import PhotoDialog from '@/components/photo/PhotoDialog';
+import {mapActions} from 'vuex';
+
 export default {
     components: {
         Photo,
@@ -23,17 +24,15 @@ export default {
     },
     data: () => ({
         photos: [],
-        currentPhoto: {},
-        dialogVisible: false,
+        /*currentPhoto: {},
+        dialogVisible: false,*/
     }),
     mounted() {
-        this.fetchTodo()
+        //this.$store.dispatch("fetchPhotos")
+        this.fetchPhotos()
     },
     methods: {
-        fetchTodo() {
-            this.axios.get('https://jsonplaceholder.typicode.com/photos?_limit=10')
-                .then(response => this.photos = response.data)
-        },
+        ...mapActions(['fetchPhotos']),
         addPhoto(photo) {
             this.photos.push(photo);
         },

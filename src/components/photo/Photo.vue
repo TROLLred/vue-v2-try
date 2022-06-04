@@ -15,6 +15,7 @@
     </v-col>
 </template>
 <script>
+import {mapMutations} from 'vuex';
 export default {
     props: {
         photo: {
@@ -23,8 +24,10 @@ export default {
         }
     },
     methods: {
+        ...mapMutations(['setCurrentPhoto', 'showDialog', 'hideDialog']),
         openPhoto() {
-            this.$emit("openPhoto", this.photo)
+            this.setCurrentPhoto(this.photo),
+            this.showDialog()
         }
     }
 }
